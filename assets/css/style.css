@@ -1,0 +1,26 @@
+.hero {
+    background: rgb(0,212,255);
+    background: linear-gradient(90deg, rgba(0,212,255,1) 0%, rgba(9,9,121,1) 35%, rgba(2,0,36,1) 100%);
+    color: white;
+    height: 80px;
+}
+.hero h1{
+        text-align: center;
+}
+.search-btn{
+    border-radius: 5px;
+    color: white;
+    background-color: skyblue;
+    border: none;
+    height: 30px;
+}
+.city-input{
+    border-radius: 5px;
+    height: 40px;
+    margin: 10px 0 10px 0;
+}
+.search-list{
+    margin:10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid black ;
+}
