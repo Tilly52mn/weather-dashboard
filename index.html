@@ -17,16 +17,16 @@
     </header>
     <div class="row">
         <div class="col-3 search-list row">
-            <div class="col-12 row search-form" id="search-form">
-                <h2 class="col-12">Search for a city</h2>
-                <input class="col-12 city-input form-control" id="city-input" type="text" placeholder="Enter a city!" />
-                <button class="col-12 search-btn" id="search">Search</button>
-            </div>
+            <form class=" card-body search-form" id="search-form">
+                <label class="form-label" for="city">Search for a city</label>
+                <input name="city-input" class=" city-input form-input" id="city-input" type="text" placeholder="Enter a city!" />
+                <button type="submit" class="btn" id="search">Search</button>
+            </form>
             <div class="col-12 cities-list row" id="cities-list">
 
             </div>
         </div>
-        <div class="col-9">
+        <div class="col-auto">
             city
         </div>
     </div>
