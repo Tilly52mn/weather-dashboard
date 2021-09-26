@@ -18,7 +18,7 @@ var formSubmitHandler = function (event) {
   var getCityWeather = function (city) {
     // format the open weather api url
     // var apiUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid=e479c4c59730296618273b6939c40da3';
-   var apiUrl ='api.openweathermap.org/data/2.5/forecast/daily?q={'+city+'}&cnt={1}&appid={e479c4c59730296618273b6939c40da3}'
+   var apiUrl ='https://api.openweathermap.org/data/2.5/weather?q='+city+'&appid=e479c4c59730296618273b6939c40da3'
     // make a get request to url
     fetch(apiUrl)
       .then(function (response) {
@@ -27,6 +27,7 @@ var formSubmitHandler = function (event) {
           console.log(response);
           response.json().then(function (data) {
             console.log(data);
+            console.log(response.data.coords[0].lat)
             // displayRepos(data, city);
           });
         } else {
