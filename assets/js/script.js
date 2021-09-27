@@ -1,5 +1,13 @@
 var cityInputEl = document.querySelector("#search-form")
-
+var lon = null
+var lat = null
+var savedCities = null
+var currentDate = moment().format('l')
+console.log(currentDate)
+// function date() {
+// document.getElementById('date').innerText()    
+// }
+// date()
 var formSubmitHandler = function (event) {
     // prevent page from refreshing
     event.preventDefault();
@@ -18,7 +26,7 @@ var formSubmitHandler = function (event) {
 var getCityWeather = function (city) {
     // format the open weather api url
 
-    var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=e479c4c59730296618273b6939c40da3'
+    var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=08808983bbda15ccf4a3ae7500bb715b'
     // make a get request to url
     fetch(apiUrl)
         .then(function (response) {
@@ -27,26 +35,30 @@ var getCityWeather = function (city) {
                 console.log(response);
                 response.json().then(function (data) {
                     console.log(data);
-                    var lat = data.coord.lat
-                    var lon = data.coord.lon
-return lat lon
-            // displayRepos(data, city);
-          });
-                } else {
-                    alert('Error: ' + response.statusText);
+                    lat = data.coord.lat
+                    lon = data.coord.lon
+                    // displayRepos(data, city);
+                    console.log(city,lon,lat)
+                    saveCity=[city,lon.lat]
+                    localStorage.setItem(JSON.stringify(savedCity))
+                    var apiWeatherUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&appid=08808983bbda15ccf4a3ae7500bb715b';
+                    fetch(apiWeatherUrl)
+                        .then(function (response) {
+                            console.log(response);
+                            response.json().then(function (data) {
+                                console.log(data);
+                            })
+                            });
+                });
+            } else {
+                alert('Error: ' + response.statusText);
             }
         })
         .catch(function (error) {
             alert('Unable to connect to Open weather');
         });
-        var apiWeatherUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&appid=e479c4c59730296618273b6939c40da3';
-        fetch(apiWeatherUrl)
-            .then(function (response) {
-                console.log(response);
-                response.json().then(function (data) {
-                    console.log(data);
-                }
-            });
+
 };
+
 
 cityInputEl.addEventListener("submit", formSubmitHandler);
