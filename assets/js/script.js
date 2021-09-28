@@ -75,11 +75,6 @@ var getCityWeather = function (city) {
                                 var day3Weather = data.daily[2].weather[0].description
                                 var day4Weather = data.daily[3].weather[0].description
                                 var day5Weather = data.daily[4].weather[0].description
-                                console.log(day1Weather)
-                                console.log(day2Weather)
-                                console.log(day3Weather)
-                                console.log(day4Weather)
-                                console.log(day5Weather)
                                 
                             })
                         });
