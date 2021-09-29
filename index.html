@@ -21,14 +21,14 @@
                 <label class=" col-12form-label" for="city">Search for a city</label>
                 <input name=" city-input" class="col-12 city-input form-input" id="city-input" type="text"
                     placeholder="Enter a city!" />
-                <button type="submit" class="btn col-12" id="search">Search</button>
+                <button type="submit" class=" search-btn btn col-12" id="search">Search</button>
             </form>
             <div class="col-12 cities-list row" id="cities-list">
 
             </div>
         </div>
         <div class="col-9 row">
-            <div class="col-12 current-weather row">
+            <div class="col-12 current-weather row" >
                 <h1><span id="city">City </span> (<span id="date"></span>)<span id="current-weather"></span></h1>
                 <p class="col-12 current-temp current">Temp:<span class="current" id="current-temp"></span>&#176F</p>
                 <p class="col-12 current-wind current">Wind:<span class="current" id="current-wind"></span>MPH</p>
@@ -37,7 +37,7 @@
             </div>
             <div class="col-12 row five-day-row">
                 <h1 class="col-12">5-Day Forecast:</h1>
-                <div class="card card-container ">
+                <div class="card card-container" id="five-day-row">
                     <div class="card-body day-card col-12">
                         <h5 class="card-title day-1-date">Date</h5>
                         <p class="col-12 day-1-weather five-day"><span class="five-day" id="day-1-weather"></span></p>
