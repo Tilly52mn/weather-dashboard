@@ -15,5 +15,4 @@ https://tilly52mn.github.io/weather-dashboard/
 Made by Adam Tilly
 
 ## snapshot of page
-![website](https://user-images.githubusercontent.com/88518686/133954653-87c76393-69a8-43fb-869e-e67f1ae4951e.PNG)
-
+![website](https://user-images.githubusercontent.com/88518686/135377647-a011c5a4-a8c7-4f1c-9fa9-d6706c290336.PNG)
