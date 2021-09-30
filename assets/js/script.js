@@ -29,8 +29,10 @@ var currentHumidity = null
 var currentWind = null
 var currentWeather = null
 var currentUVI = null
+var cityIdCounter = 0
 var dateEl = document.getElementById('date');
 var fiveDayEl = document.getElementById('five-day-row')
+var cityInputVarEl = document.getElementById("city-input")
 dateEl.textContent = currentDate
 // var day1date = currentDate.clone().add(1, 'day')
 // console.log(day1date)
@@ -42,48 +44,64 @@ var formSubmitHandler = function (event) {
 
     // get value from input element
     var cityname = document.getElementById("city-input").value;
-    document.getElementById('city').textContent = cityname;
+    // document.getElementById('city').textContent = cityname;
     console.log(cityname)
+    createSavedButton(cityname)
     if (cityname) {
-        getCityWeather(cityname);
-        cityInputEl.value = "";
-        createSavedButton(cityname)
+        getAPIWeather(cityname);
+        cityInputVarEl.value = "";
     } else {
         alert("Please enter a City");
     }
 };
+var loadCities = function(){
+    var loadedCities = localStorage.getItem("cities")
+    cities = JSON.parse(loadedCities)
+    if(cities === null){
+        return
+    }
 
-var createSavedButton = function (city) {
-    var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=08808983bbda15ccf4a3ae7500bb715b'
-    // make a get request to url
-    fetch(apiUrl)
-        .then(function (response) {
-            // request was successful
-            if (response.ok) {
-                console.log(response);
-                response.json().then(function (data) {
-                    console.log(data);
-                    lat = data.coord.lat
-                    lon = data.coord.lon
-                    var currentHumidity = data.main.humidity
-                    console.log(currentHumidity);
-                    console.log(city, lon, lat)
-
-                })
-            }
-        })
-        //Create the button
+    for(let i=0; i< cities.length; i++){
         var cityBtnEl = document.createElement("button")
         cityBtnEl.className = "btn col-12 city-btn"
-        cityBtnEl.textContent = city
+        cityBtnEl.textContent = cities[i].CityName
+        cityBtnEl.id= cities[i].CityName
         citiesListEl.appendChild(cityBtnEl);
-    // displayRepos(data, city);
-    // saveCity = [city, lon.lat]
-    // localStorage.setItem(JSON.stringify(savedCity))
+    }
 }
-var getCityWeather = function (city) {
+var createSavedButton = function (name) {
+
+    //Create the button
+    var cityBtnEl = document.createElement("button")
+    cityBtnEl.className = "btn col-12 city-btn"
+    cityBtnEl.textContent = name
+    cityBtnEl.id = name
+    citiesListEl.appendChild(cityBtnEl);
+
+    newCity = {
+         CityName: name, 
+         longitude: lon, 
+         latitude: lat
+        }
+    console.log(newCity);
+        var savedCities = localStorage.getItem("cities")
+
+        cities = JSON.parse(savedCities)
+
+        if(cities === null){
+            cities =[]
+        }
+
+        cityIdCounter = cities.length;
+        newCity.id = cityIdCounter;
+        cities.push(newCity)
+    localStorage.setItem("cities", JSON.stringify(cities))
+    cityIdCounter++
+}
+var getAPIWeather = function (city) {
     // format the open weather api url
 
+    document.getElementById('city').textContent = city;
     var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=08808983bbda15ccf4a3ae7500bb715b'
     // make a get request to url
     fetch(apiUrl)
@@ -97,46 +115,8 @@ var getCityWeather = function (city) {
                     lon = data.coord.lon
                     var currentHumidity = data.main.humidity
                     console.log(currentHumidity);
-                    // displayRepos(data, city);
                     console.log(city, lon, lat)
-                    // saveCity = [city, lon.lat]
-                    // localStorage.setItem(JSON.stringify(savedCity))
-                    var apiWeatherUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&exclude=hourly,alerts,minuetly&units=imperial&appid=08808983bbda15ccf4a3ae7500bb715b';
-                    fetch(apiWeatherUrl)
-                        .then(function (response) {
-                            console.log(response);
-                            response.json().then(function (data) {
-                                console.log(data);
-                                currentTemp = data.current.temp;
-                                currentWind = data.current.wind_speed
-                                currentWeather = data.current.weather[0].icon
-                                currentUVI = data.current.uvi
-                                currentHumidity = data.current.humidity
-                                console.log(currentWeather);
-                                console.log(currentUVI)
-                                day1Temp = data.daily[0].temp.max
-                                day2Temp = data.daily[1].temp.max
-                                day3Temp = data.daily[2].temp.max
-                                day4Temp = data.daily[3].temp.max
-                                day5Temp = data.daily[4].temp.max
-                                day1Wind = data.daily[0].wind_speed
-                                day2Wind = data.daily[1].wind_speed
-                                day3Wind = data.daily[2].wind_speed
-                                day4Wind = data.daily[3].wind_speed
-                                day5Wind = data.daily[4].wind_speed
-                                day1Humidity = data.daily[0].humidity
-                                day2Humidity = data.daily[1].humidity
-                                day3Humidity = data.daily[2].humidity
-                                day4Humidity = data.daily[3].humidity
-                                day5Humidity = data.daily[4].humidity
-                                day1Weather = data.daily[0].weather[0].icon
-                                day2Weather = data.daily[1].weather[0].icon
-                                day3Weather = data.daily[2].weather[0].icon
-                                day4Weather = data.daily[3].weather[0].icon
-                                day5Weather = data.daily[4].weather[0].icon
-                                setWeather(currentHumidity);
-                            })
-                        });
+                    getAPIOneCall()
                 });
             } else {
                 alert('Error: ' + response.statusText);
@@ -145,8 +125,46 @@ var getCityWeather = function (city) {
         .catch(function (error) {
             alert('Unable to connect to Open weather');
         });
-
 };
+
+var getAPIOneCall = function () {
+    var apiWeatherUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&exclude=hourly,alerts,minuetly&units=imperial&appid=08808983bbda15ccf4a3ae7500bb715b';
+    fetch(apiWeatherUrl)
+        .then(function (response) {
+            console.log(response);
+            response.json().then(function (data) {
+                console.log(data);
+                currentTemp = data.current.temp;
+                currentWind = data.current.wind_speed
+                currentWeather = data.current.weather[0].icon
+                currentUVI = data.current.uvi
+                currentHumidity = data.current.humidity
+                console.log(currentWeather);
+                console.log(currentUVI)
+                day1Temp = data.daily[0].temp.max
+                day2Temp = data.daily[1].temp.max
+                day3Temp = data.daily[2].temp.max
+                day4Temp = data.daily[3].temp.max
+                day5Temp = data.daily[4].temp.max
+                day1Wind = data.daily[0].wind_speed
+                day2Wind = data.daily[1].wind_speed
+                day3Wind = data.daily[2].wind_speed
+                day4Wind = data.daily[3].wind_speed
+                day5Wind = data.daily[4].wind_speed
+                day1Humidity = data.daily[0].humidity
+                day2Humidity = data.daily[1].humidity
+                day3Humidity = data.daily[2].humidity
+                day4Humidity = data.daily[3].humidity
+                day5Humidity = data.daily[4].humidity
+                day1Weather = data.daily[0].weather[0].icon
+                day2Weather = data.daily[1].weather[0].icon
+                day3Weather = data.daily[2].weather[0].icon
+                day4Weather = data.daily[3].weather[0].icon
+                day5Weather = data.daily[4].weather[0].icon
+                setWeather(currentHumidity);
+            })
+        });
+}
 var setWeather = function (humidity) {
     fiveDayEl.setAttribute('display', 'flex');
 
@@ -183,4 +201,15 @@ var setWeather = function (humidity) {
 
 }
 
+var cityRecallHandler = function(event){
+    
+    event.preventDefault();
+
+   var cityRecallName = event.target.id
+   console.log(cityRecallName);
+   getAPIWeather(cityRecallName);
+}
+
+loadCities();
 cityInputEl.addEventListener("submit", formSubmitHandler);
+citiesListEl.addEventListener("click",cityRecallHandler)
