@@ -65,7 +65,8 @@ var loadCities = function(){
 
     for(let i=0; i< cities.length; i++){
         var cityBtnEl = document.createElement("button")
-        cityBtnEl.className = "btn col-12 city-btn"
+        cityBtnEl.className = "btn city-btn";
+        cityBtnEl.style.marginBottom = "1rem";
         cityBtnEl.textContent = cities[i].CityName
         cityBtnEl.id= cities[i].CityName
         citiesListEl.appendChild(cityBtnEl);
