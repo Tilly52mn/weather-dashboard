@@ -31,11 +31,13 @@ var currentWeather = null
 var currentUVI = null
 var cityIdCounter = 0
 var dateEl = document.getElementById('date');
-var fiveDayEl = document.getElementById('five-day-row')
 var cityInputVarEl = document.getElementById("city-input")
 dateEl.textContent = currentDate
-// var day1date = currentDate.clone().add(1, 'day')
-// console.log(day1date)
+var day1date = moment().add(1, 'day').format('l')
+var day2date = moment().add(2, 'day').format('l')
+var day3date = moment().add(3, 'day').format('l')
+var day4date = moment().add(4, 'day').format('l')
+var day5date = moment().add(5, 'day').format('l')
 
 
 var formSubmitHandler = function (event) {
@@ -166,7 +168,6 @@ var getAPIOneCall = function () {
         });
 }
 var setWeather = function (humidity) {
-    fiveDayEl.setAttribute('display', 'flex');
 
     document.getElementById('current-temp').textContent = currentTemp;
     document.getElementById('current-wind').textContent = currentWind;
@@ -178,26 +179,32 @@ var setWeather = function (humidity) {
     document.getElementById('day-1-temp').textContent = day1Temp
     document.getElementById('day-1-wind').textContent = day1Wind
     document.getElementById('day-1-humidity').textContent = day1Humidity
+    document.getElementById('day-1-date').textContent = day1date;
+    
 
     document.getElementById('day-2-weather').innerHTML = '<img src=http://openweathermap.org/img/wn/' + day2Weather + '@2x.png>'
     document.getElementById('day-2-temp').textContent = day2Temp
     document.getElementById('day-2-wind').textContent = day2Wind
     document.getElementById('day-2-humidity').textContent = day2Humidity
+    document.getElementById('day-2-date').textContent = day2date;
 
     document.getElementById('day-3-weather').innerHTML = '<img src=http://openweathermap.org/img/wn/' + day3Weather + '@2x.png>'
     document.getElementById('day-3-temp').textContent = day3Temp
     document.getElementById('day-3-wind').textContent = day3Wind
     document.getElementById('day-3-humidity').textContent = day3Humidity
+    document.getElementById('day-3-date').textContent = day3date;
 
     document.getElementById('day-4-weather').innerHTML = '<img src=http://openweathermap.org/img/wn/' + day4Weather + '@2x.png>'
     document.getElementById('day-4-temp').textContent = day4Temp
     document.getElementById('day-4-wind').textContent = day4Wind
     document.getElementById('day-4-humidity').textContent = day4Humidity
+    document.getElementById('day-4-date').textContent = day4date;
 
     document.getElementById('day-5-weather').innerHTML = '<img src=http://openweathermap.org/img/wn/' + day5Weather + '@2x.png>'
     document.getElementById('day-5-temp').textContent = day5Temp
     document.getElementById('day-5-wind').textContent = day5Wind
     document.getElementById('day-5-humidity').textContent = day5Humidity
+    document.getElementById('day-5-date').textContent = day5date;
 
 }
 
